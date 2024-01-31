@@ -1,0 +1,10 @@
+BEGIN
+  HASHINI_STORAGE_API.insert_storage(
+    store_id_ => 1,
+    status_ => 'In Stock',
+    container_id_ => 123,
+    branch_id_ => 456,
+    item_id_ => 789
+  );
+END;
+

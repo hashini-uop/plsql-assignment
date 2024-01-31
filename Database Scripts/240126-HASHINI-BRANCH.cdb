@@ -1,0 +1,12 @@
+CREATE TABLE HASHINI_BRANCH_TAB (
+    branch_id NUMBER GENERATED ALWAYS AS IDENTITY,
+    branch_name VARCHAR2(200),
+    branch_address VARCHAR2(4000),
+    branch_manager VARCHAR2(200),
+    total_warehouse_capacity NUMBER,
+    
+    company_reg_no NUMBER,
+    container_id NUMBER,
+    
+    PRIMARY KEY (company_reg_no, branch_id,container_id) 
+);

@@ -1,0 +1,56 @@
+CREATE TABLE HASHINI_COMPANY_TAB (
+    company_reg_no  NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    company_name VARCHAR2(200),
+    company_address VARCHAR2(4000)
+);
+
+CREATE TABLE HASHINI_FOOD_ITEM_TAB (
+    item_id NUMBER,
+    item_name VARCHAR2(100),
+    available_qty NUMBER,
+    scrapped_qty NUMBER,
+    reserved_qty NUMBER,
+    CONSTRAINT pk_food_item PRIMARY KEY (item_id)
+);
+
+
+
+CREATE TABLE HASHINI_CONTAINER_TAB (
+    container_id NUMBER,
+    current_weight NUMBER,
+    max_volume NUMBER,
+    max_weight NUMBER,
+    current_volume NUMBER,
+    
+    branch_id NUMBER,
+    company_reg_no NUMBER,
+    
+    PRIMARY KEY(branch_id, container_id ,company_reg_no)
+
+);
+
+
+CREATE TABLE HASHINI_STORAGE_TAB (
+    status VARCHAR2(50),
+    
+    container_id NUMBER,
+    branch_id NUMBER,
+    item_id NUMBER,
+    company_reg_no Number,
+
+    PRIMARY KEY (container_id, branch_id, company_reg_no, item_id)
+);
+
+
+CREATE TABLE HASHINI_BRANCH_TAB (
+    branch_id NUMBER GENERATED ALWAYS AS IDENTITY,
+    branch_name VARCHAR2(200),
+    branch_address VARCHAR2(4000),
+    branch_manager VARCHAR2(200),
+    total_warehouse_capacity NUMBER,
+    
+    company_reg_no NUMBER,
+    container_id NUMBER,
+    
+    PRIMARY KEY (company_reg_no, branch_id,container_id) 
+);

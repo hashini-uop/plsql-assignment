@@ -1,0 +1,16 @@
+CREATE OR REPLACE PACKAGE HASHINI_FOOD_ITEM_API AS
+  PROCEDURE insert_food_item(item_id_       IN NUMBER DEFAULT NULL,
+                             item_name_     IN VARCHAR2,
+                             available_qty_ IN NUMBER,
+                             scrapped_qty_  IN NUMBER,
+                             reserved_qty_  IN NUMBER);
+  PROCEDURE update_food_item(item_id_       IN NUMBER,
+                             item_name_     IN VARCHAR2,
+                             available_qty_ IN NUMBER,
+                             scrapped_qty_  IN NUMBER,
+                             reserved_qty_  IN NUMBER);
+  PROCEDURE delete_food_item(item_id_ IN NUMBER);
+  FUNCTION get_item_name(item_id IN NUMBER) RETURN VARCHAR2;
+  FUNCTION get_available_qty(item_id IN NUMBER) RETURN NUMBER;
+END HASHINI_FOOD_ITEM_API;
+/

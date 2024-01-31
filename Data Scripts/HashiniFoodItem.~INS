@@ -1,0 +1,9 @@
+BEGIN
+  HASHINI_FOOD_ITEM_API.insert_food_item(
+    item_name_ => 'Rice',
+    available_qty_ => 1000,
+    scrapped_qty_ => 50,
+    reserved_qty_ => 200
+  );
+END;
+/

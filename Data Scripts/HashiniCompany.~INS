@@ -1,0 +1,10 @@
+DECLARE
+  company_name VARCHAR2(200);
+BEGIN
+    HASHINI_COMPANY_API.insert_company('Atlas', '123 Main Street, Kaluthara');
+
+    company_name := HASHINI_COMPANY_API.get_company_name(1); 
+    DBMS_OUTPUT.PUT_LINE('Company Name: ' || company_name);
+
+
+END;

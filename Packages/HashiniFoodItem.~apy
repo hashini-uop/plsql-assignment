@@ -1,0 +1,126 @@
+CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
+  PROCEDURE insert_food_item(item_id_       IN NUMBER DEFAULT NULL,
+                             item_name_     IN VARCHAR2,
+                             available_qty_ IN NUMBER,
+                             scrapped_qty_  IN NUMBER,
+                             reserved_qty_  IN NUMBER) IS
+    generated_item_id_ NUMBER;
+  BEGIN
+    IF item_id_ IS NULL THEN
+      SELECT item_id_seq.NEXTVAL INTO generated_item_id_ FROM dual;
+    ELSE
+      generated_item_id_ := item_id_;
+    END IF;
+  
+    INSERT INTO HASHINI_FOOD_ITEM_TAB
+      (item_id, item_name, available_qty, scrapped_qty, reserved_qty)
+    VALUES
+      (generated_item_id_,
+       item_name_,
+       available_qty_,
+       scrapped_qty_,
+       reserved_qty_);
+  END insert_food_item;
+
+  PROCEDURE update_food_item(item_id_       IN NUMBER,
+                             item_name_     IN VARCHAR2,
+                             available_qty_ IN NUMBER,
+                             scrapped_qty_  IN NUMBER,
+                             reserved_qty_  IN NUMBER) IS
+  BEGIN
+    UPDATE HASHINI_FOOD_ITEM_TAB
+       SET item_name     = item_name_,
+           available_qty = available_qty_,
+           scrapped_qty  = scrapped_qty_,
+           reserved_qty  = reserved_qty_
+     WHERE item_id = item_id_;
+  END update_food_item;
+
+  PROCEDURE delete_food_item(item_id_ IN NUMBER) IS
+  BEGIN
+    DELETE FROM HASHINI_FOOD_ITEM_TAB WHERE item_id = item_id_;
+  END delete_food_item;
+
+  FUNCTION get_item_name(item_id IN NUMBER) RETURN VARCHAR2 AS
+    item_name VARCHAR2(100);
+  BEGIN
+  
+    DECLARE
+      CURSOR item_cursor IS
+        SELECT item_name
+          FROM HASHINI_FOOD_ITEM_TAB
+         WHERE item_id = item_id;
+    BEGIN
+    
+      OPEN item_cursor;
+      FETCH item_cursor
+        INTO item_name;
+      CLOSE item_cursor;
+    
+      RETURN item_name;
+    END;
+  END get_item_name;
+
+  FUNCTION get_available_qty(item_id IN NUMBER) RETURN NUMBER AS
+    available_qty NUMBER;
+  BEGIN
+  
+    DECLARE
+      CURSOR item_cursor IS
+        SELECT available_qty
+          FROM HASHINI_FOOD_ITEM_TAB
+         WHERE item_id = item_id;
+    BEGIN
+    
+      OPEN item_cursor;
+      FETCH item_cursor
+        INTO available_qty;
+      CLOSE item_cursor;
+    
+      RETURN available_qty;
+    END;
+  END get_available_qty;
+
+  FUNCTION get_scrapped_qty(item_id IN NUMBER) RETURN NUMBER AS
+    scrapped_qty NUMBER;
+  BEGIN
+  
+    DECLARE
+      CURSOR item_cursor IS
+        SELECT scrapped_qty
+          FROM HASHINI_FOOD_ITEM_TAB
+         WHERE item_id = item_id;
+    BEGIN
+    
+      OPEN item_cursor;
+      FETCH item_cursor
+        INTO scrapped_qty;
+      CLOSE item_cursor;
+    
+      RETURN scrapped_qty;
+    END;
+  END get_scrapped_qty;
+  
+  
+  FUNCTION get_reserved_qty(item_id IN NUMBER) RETURN NUMBER AS
+    reserved_qty NUMBER;
+  BEGIN
+  
+    DECLARE
+      CURSOR item_cursor IS
+        SELECT reserved_qty
+          FROM HASHINI_FOOD_ITEM_TAB
+         WHERE item_id = item_id;
+    BEGIN
+    
+      OPEN item_cursor;
+      FETCH item_cursor
+        INTO reserved_qty;
+      CLOSE item_cursor;
+    
+      RETURN reserved_qty;
+    END;
+  END get_reserved_qty;
+
+END HASHINI_FOOD_ITEM_API;
+/

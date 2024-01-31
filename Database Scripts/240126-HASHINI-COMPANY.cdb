@@ -1,0 +1,5 @@
+CREATE TABLE HASHINI_COMPANY_TAB (
+    company_reg_no  NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    company_name VARCHAR2(200),
+    company_address VARCHAR2(4000)
+);

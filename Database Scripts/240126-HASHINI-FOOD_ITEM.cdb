@@ -1,0 +1,8 @@
+CREATE TABLE HASHINI_FOOD_ITEM_TAB (
+    item_id NUMBER,
+    item_name VARCHAR2(300),
+    available_qty NUMBER,
+    scrapped_qty NUMBER,
+    reserved_qty NUMBER,
+    PRIMARY KEY (item_id)
+);
