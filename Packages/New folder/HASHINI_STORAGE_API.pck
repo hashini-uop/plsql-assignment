@@ -1,3 +1,22 @@
+CREATE OR REPLACE PACKAGE HASHINI_STORAGE_API AS
+    PROCEDURE insert_storage_record(
+        status_ VARCHAR2,
+        container_id_ NUMBER,
+        branch_id_ NUMBER,
+        item_id_ NUMBER,
+        company_reg_no_ NUMBER
+    );
+    PROCEDURE update_storage(container_id_ IN NUMBER,
+                           branch_id_ IN NUMBER,
+                           company_reg_no_ IN NUMBER,
+                           item_id_ IN NUMBER,
+                           status_ IN VARCHAR2);
+    PROCEDURE delete_storage(container_id_ IN NUMBER,
+                           branch_id_ IN NUMBER,
+                           company_reg_no_ IN NUMBER,
+                           item_id_ IN NUMBER);
+END HASHINI_STORAGE_API;
+/
 CREATE OR REPLACE PACKAGE BODY HASHINI_STORAGE_API AS
     PROCEDURE insert_storage_record(
         status_ VARCHAR2,
@@ -10,8 +29,8 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_STORAGE_API AS
         INSERT INTO HASHINI_STORAGE_TAB (status, container_id, branch_id, item_id, company_reg_no)
         VALUES (status_, container_id_, branch_id_, item_id_, company_reg_no_);
     END insert_storage_record;
-    
-    
+
+
     PROCEDURE update_storage(container_id_ IN NUMBER,
                            branch_id_ IN NUMBER,
                            company_reg_no_ IN NUMBER,

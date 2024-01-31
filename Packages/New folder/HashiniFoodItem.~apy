@@ -100,7 +100,8 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
       RETURN scrapped_qty;
     END;
   END get_scrapped_qty;
-
+  
+  
   FUNCTION get_reserved_qty(item_id IN NUMBER) RETURN NUMBER AS
     reserved_qty NUMBER;
   BEGIN

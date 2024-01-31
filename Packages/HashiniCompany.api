@@ -1,8 +1,11 @@
 CREATE OR REPLACE PACKAGE HASHINI_COMPANY_API AS
-   PROCEDURE insert_company(company_name_ IN VARCHAR2, company_address_ IN VARCHAR2);
-   PROCEDURE update_company(company_reg_no IN NUMBER, company_name IN VARCHAR2, company_address IN VARCHAR2);
-   PROCEDURE delete_company(company_reg_no IN NUMBER);
-   FUNCTION get_company_name(company_reg_no IN NUMBER) RETURN VARCHAR2;
-   FUNCTION get_company_address(company_reg_no IN NUMBER) RETURN VARCHAR2;
+  PROCEDURE insert_company(company_name_    IN VARCHAR2,
+                           company_address_ IN VARCHAR2);
+  PROCEDURE update_company(company_reg_no  IN NUMBER,
+                           company_name    IN VARCHAR2,
+                           company_address IN VARCHAR2);
+  PROCEDURE delete_company(company_reg_no IN NUMBER);
+  FUNCTION get_company_name(company_reg_no IN NUMBER) RETURN VARCHAR2;
+  FUNCTION get_company_address(company_reg_no IN NUMBER) RETURN VARCHAR2;
 END HASHINI_COMPANY_API;
 /

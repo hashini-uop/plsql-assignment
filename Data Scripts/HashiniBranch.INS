@@ -4,6 +4,16 @@ DECLARE
   branch_manager VARCHAR2(200);
   total_warehouse_capacity NUMBER;
 BEGIN
+    HASHINI_BRANCH_API.insert_branch(
+    branch_name_ => 'Kegalle Branch',
+    branch_address_ => '123 Elm Street',
+    branch_manager_ => 'Amir Khan',
+    total_warehouse_capacity_ => 1000,
+    company_reg_no_ => 24,
+    container_id_ => 1
+  );
+  
+  
 
    branch_name := HASHINI_BRANCH_API.get_branch_name(24);
    DBMS_OUTPUT.PUT_LINE('Branch Name: ' || branch_name);

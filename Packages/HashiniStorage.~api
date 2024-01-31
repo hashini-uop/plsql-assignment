@@ -6,5 +6,14 @@ CREATE OR REPLACE PACKAGE HASHINI_STORAGE_API AS
         item_id_ NUMBER,
         company_reg_no_ NUMBER
     );
+    PROCEDURE update_storage(container_id_ IN NUMBER,
+                           branch_id_ IN NUMBER,
+                           company_reg_no_ IN NUMBER,
+                           item_id_ IN NUMBER,
+                           status_ IN VARCHAR2);
+    PROCEDURE delete_storage(container_id_ IN NUMBER,
+                           branch_id_ IN NUMBER,
+                           company_reg_no_ IN NUMBER,
+                           item_id_ IN NUMBER);
 END HASHINI_STORAGE_API;
 /
