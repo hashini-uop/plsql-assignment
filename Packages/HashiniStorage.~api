@@ -1,4 +1,10 @@
 CREATE OR REPLACE PACKAGE HASHINI_STORAGE_API AS
-   PROCEDURE insert_storage(store_id_ IN NUMBER, item_id_ IN NUMBER, container_id_ IN NUMBER, status_ IN VARCHAR2);
+    PROCEDURE insert_storage_record(
+        status_ VARCHAR2,
+        container_id_ NUMBER,
+        branch_id_ NUMBER,
+        item_id_ NUMBER,
+        company_reg_no_ NUMBER
+    );
 END HASHINI_STORAGE_API;
 /

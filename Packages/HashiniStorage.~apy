@@ -10,5 +10,25 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_STORAGE_API AS
         INSERT INTO HASHINI_STORAGE_TAB (status, container_id, branch_id, item_id, company_reg_no)
         VALUES (status_, container_id_, branch_id_, item_id_, company_reg_no_);
     END insert_storage_record;
+    
+    
+    PROCEDURE update_storage_record(item_id_       IN NUMBER,
+                             item_name_     IN VARCHAR2,
+                             available_qty_ IN NUMBER,
+                             scrapped_qty_  IN NUMBER,
+                             reserved_qty_  IN NUMBER) IS
+  BEGIN
+    UPDATE HASHINI_storage_record
+       SET item_name     = item_name_,
+           available_qty = available_qty_,
+           scrapped_qty  = scrapped_qty_,
+           reserved_qty  = reserved_qty_
+     WHERE item_id = item_id_;
+  END update_food_item;
+
+  PROCEDURE delete_storage_record(item_id_ IN NUMBER) IS
+  BEGIN
+    DELETE FROM HASHINI_STORAGE_TAB WHERE item_id = item_id_;
+  END delete_food_item;
 END HASHINI_STORAGE_API;
 /
