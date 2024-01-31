@@ -1,9 +1,15 @@
+DECLARE
+  item_name VARCHAR2(200);
+  item_address VARCHAR2(4000);
+  available_qty NUMBER;
+  reserved_qty NUMBER;
+  scrapped_qty NUMBER;
 BEGIN
-  HASHINI_FOOD_ITEM_API.insert_food_item(
-    item_name_ => 'Rice',
-    available_qty_ => 1000,
-    scrapped_qty_ => 50,
-    reserved_qty_ => 200
-  );
+
+   item_name := HASHINI_FOOD_ITEM_API.get_item_name(24);
+   DBMS_OUTPUT.PUT_LINE('Item Name: ' || item_name);
+   
+  
+    
+   
 END;
-/

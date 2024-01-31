@@ -1,6 +1,9 @@
 CREATE OR REPLACE PACKAGE HASHINI_BRANCH_API AS
    PROCEDURE insert_branch(branch_name_ IN VARCHAR2, branch_address_ IN VARCHAR2, branch_manager_ IN VARCHAR2, total_warehouse_capacity_ IN NUMBER, company_reg_no_ IN NUMBER, container_id_ IN NUMBER);
    FUNCTION get_branch_name(branch_id_ IN NUMBER) RETURN VARCHAR2;
+    FUNCTION get_branch_address(branch_id_ IN NUMBER) RETURN VARCHAR2;
    FUNCTION get_remaining_capacity_in_containers(branch_id_ IN NUMBER) RETURN NUMBER;
+    FUNCTION get_branch_manager(branch_id_ IN NUMBER) RETURN VARCHAR2;
+    FUNCTION get_total_warehouse_capacity(branch_id_ IN NUMBER) RETURN NUMBER;
 END HASHINI_BRANCH_API;
 /

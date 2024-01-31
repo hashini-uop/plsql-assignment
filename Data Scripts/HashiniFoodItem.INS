@@ -1,16 +1,15 @@
+DECLARE
+  item_name VARCHAR2(200);
+  item_address VARCHAR2(4000);
+  available_qty NUMBER;
+  reserved_qty NUMBER;
+  scrapped_qty NUMBER;
 BEGIN
-  HASHINI_FOOD_ITEM_API.insert_food_item(
-    item_name_ => 'Apple',
-    available_qty_ => 100,
-    scrapped_qty_ => 5,
-    reserved_qty_ => 10
-  );
 
-  HASHINI_FOOD_ITEM_API.insert_food_item(
-    item_name_ => 'Banana',
-    available_qty_ => 150,
-    scrapped_qty_ => 3,
-    reserved_qty_ => 20
-  );
+   item_name := HASHINI_FOOD_ITEM_API.get_item_name(24);
+   DBMS_OUTPUT.PUT_LINE('Item Name: ' || item_name);
+   
+  
+    
+   
 END;
-
