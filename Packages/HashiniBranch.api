@@ -5,6 +5,16 @@ CREATE OR REPLACE PACKAGE HASHINI_BRANCH_API AS
                           total_warehouse_capacity_ IN NUMBER,
                           company_reg_no_           IN NUMBER,
                           container_id_             IN NUMBER);
+    PROCEDURE update_container(container_id_   IN NUMBER,
+                             current_weight_ IN NUMBER,
+                             max_volume_     IN NUMBER,
+                             max_weight_     IN NUMBER,
+                             current_volume_ IN NUMBER,
+                             branch_id_      IN NUMBER,
+                             company_reg_no_ IN NUMBER);
+   PROCEDURE delete_container(container_id_   IN NUMBER,
+                             branch_id_      IN NUMBER,
+                             company_reg_no_ IN NUMBER);
   FUNCTION get_branch_name(branch_id_ IN NUMBER) RETURN VARCHAR2;
   FUNCTION get_branch_address(branch_id_ IN NUMBER) RETURN VARCHAR2;
   FUNCTION get_remaining_capacity_in_containers(branch_id_ IN NUMBER)
