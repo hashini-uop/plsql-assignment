@@ -80,7 +80,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   END get_branch_manager;
 
   FUNCTION get_total_warehouse_capacity(branch_id_ IN NUMBER) RETURN NUMBER IS
-    total_warehouse_capacity_ VARCHAR2(200);
+    total_warehouse_capacity_ NUMBER;
   BEGIN
     SELECT total_warehouse_capacity
       INTO total_warehouse_capacity_
@@ -90,50 +90,52 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
     RETURN total_warehouse_capacity_;
   
   END get_total_warehouse_capacity;
-  ------------------------------------------------------------------------------------
-  FUNCTION get_remaining_capacity_in_containers(branch_id_ IN NUMBER)
-    RETURN NUMBER IS
-    total_container_capacity_     NUMBER;
-    occupied_container_capacity_  NUMBER;
-    remaining_container_capacity_ NUMBER;
-  
-    CURSOR container_capacity_cursor IS
-      SELECT SUM(max_volume) AS total_capacity
-        FROM HASHINI_CONTAINER_TAB
-       WHERE branch_id = branch_id_;
-  
-    CURSOR occupied_capacity_cursor IS
-      SELECT SUM(current_volume) AS occupied_capacity
-        FROM HASHINI_CONTAINER_TAB
-       WHERE branch_id = branch_id_;
-  
+
+  ------Inventory Info----
+  FUNCTION get_current_inventory(branch_id_ IN NUMBER) RETURN SYS_REFCURSOR IS
+    cur SYS_REFCURSOR;
   BEGIN
-    -- Calculate total container capacity for the branch
-    OPEN container_capacity_cursor;
-    FETCH container_capacity_cursor
-      INTO total_container_capacity_;
-    CLOSE container_capacity_cursor;
+    OPEN cur FOR
+      SELECT ci.container_id,
+             ci.current_weight,
+             ci.max_volume,
+             ci.max_weight,
+             ci.current_volume,
+             fi.item_id,
+             fi.item_name,
+             fi.available_qty,
+             fi.scrapped_qty,
+             fi.reserved_qty
+        FROM HASHINI_CONTAINER_TAB ci JOIN HASHINI_FOOD_ITEM_TAB fi ON ci.branch_id = branch_id_
+       WHERE ci.branch_id = branch_id_;
   
-    -- Calculate occupied container capacity within the branch
-    OPEN occupied_capacity_cursor;
-    FETCH occupied_capacity_cursor
-      INTO occupied_container_capacity_;
-    CLOSE occupied_capacity_cursor;
+    RETURN cur;
+  END get_current_inventory;
+
+  ------------------remaining capacity
+  FUNCTION get_remaining_capacity(branch_id_ IN NUMBER) RETURN NUMBER IS
+    result_ NUMBER;
+  BEGIN
+    SELECT ((SELECT total_warehouse_capacity
+               FROM HASHINI_BRANCH_TAB
+              WHERE branch_id = branch_id_) -
+           COALESCE((SELECT SUM(max_volume)
+                       FROM HASHINI_CONTAINER_TAB
+                      WHERE container_id IN
+                            (SELECT container_id
+                               FROM HASHINI_STORAGE_TAB
+                              WHERE status = 'Active' AND
+                                    branch_id = branch_id_) AND
+                            branch_id = branch_id_),
+                     0))
+      INTO result_
+      FROM dual;
   
-    -- Calculate remaining container capacity within the branch
-    IF total_container_capacity_ IS NOT NULL AND
-       occupied_container_capacity_ IS NOT NULL THEN
-      remaining_container_capacity_ := total_container_capacity_ -
-                                       occupied_container_capacity_;
-    ELSE
-      remaining_container_capacity_ := NULL; -- Handle no data or NULL cases
-    END IF;
-  
-    RETURN remaining_container_capacity_;
-  
+    RETURN result_;
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
       RETURN NULL; -- Handle no data found exception
-  END get_remaining_capacity_in_containers;
+  END get_remaining_capacity;
 
 END HASHINI_BRANCH_API;
+/

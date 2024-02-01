@@ -3,6 +3,21 @@ DECLARE
   branch_address VARCHAR2(4000);
   branch_manager VARCHAR2(200);
   total_warehouse_capacity NUMBER;
+  remaining_capacity NUMBER;
+
+
+  inventory_cursor SYS_REFCURSOR;
+  container_id NUMBER;
+  current_weight NUMBER;
+  max_volume NUMBER;
+  max_weight NUMBER;
+  current_volume NUMBER;
+  item_id NUMBER;
+  item_name VARCHAR2(100);
+  available_qty NUMBER;
+  scrapped_qty NUMBER;
+  reserved_qty NUMBER;
+
 BEGIN
     HASHINI_BRANCH_API.insert_branch(
     branch_name_ => 'Kegalle Branch',
@@ -26,6 +41,22 @@ BEGIN
    
    total_warehouse_capacity := HASHINI_BRANCH_API.get_total_warehouse_capacity(24);
    DBMS_OUTPUT.PUT_LINE('Total_warehouse_capacity: ' || total_warehouse_capacity);
+
+   remaining_capacity := HASHINI_BRANCH_API.get_remaining_capacity(23);
+   DBMS_OUTPUT.PUT_LINE('Remaining Capacity: ' || remaining_capacity);
+
+
+  ------inventory details----------
+ inventory_cursor := HASHINI_BRANCH_API.get_current_inventory(41); -- Replace 123 with the actual    branch ID
+  
+  -- Fetch and display the inventory details
+  LOOP
+    FETCH inventory_cursor INTO container_id, current_weight, max_volume, max_weight, current_volume, item_id, item_name, available_qty, scrapped_qty, reserved_qty;
+    EXIT WHEN inventory_cursor%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Container ID: ' || container_id || ', Current Weight: ' || current_weight || ', Max Volume: ' || max_volume || ', Max Weight: ' || max_weight || ', Current Volume: ' || current_volume || ', Item ID: ' || item_id || ', Item Name: ' || item_name || ', Available Quantity: ' || available_qty || ', Scrapped Quantity: ' || scrapped_qty || ', Reserved Quantity: ' || reserved_qty);
+  END LOOP;
+
+  CLOSE inventory_cursor
     
    
 END;
