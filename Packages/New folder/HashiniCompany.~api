@@ -1,5 +1,0 @@
-CREATE OR REPLACE PACKAGE HASHINI_COMPANY_API AS
-   PROCEDURE insert_company(company_name_ IN VARCHAR2, company_address_ IN VARCHAR2);
-   FUNCTION get_company_name(company_reg_no IN NUMBER) RETURN VARCHAR2;
-END HASHINI_COMPANY_API;
-/

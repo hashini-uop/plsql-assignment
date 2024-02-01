@@ -6,7 +6,8 @@ CREATE TABLE HASHINI_CONTAINER_TAB (
     current_volume NUMBER,
     
     branch_id NUMBER,
+    company_reg_no NUMBER,
     
-    PRIMARY KEY(branch_id, container_id )
+    PRIMARY KEY(branch_id, container_id ,company_reg_no)
 
 );
