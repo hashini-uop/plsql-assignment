@@ -92,24 +92,26 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   END get_total_warehouse_capacity;
 
   ------Inventory Info----
-  FUNCTION get_current_inventory(branch_id_ IN NUMBER) RETURN SYS_REFCURSOR IS
-    cur SYS_REFCURSOR;
+ PROCEDURE get_current_inventory(branch_id_ IN NUMBER) IS
+    available_qty_ NUMBER;
+    item_id_       NUMBER;
   BEGIN
-    OPEN cur FOR
-      SELECT ci.container_id,
-             ci.current_weight,
-             ci.max_volume,
-             ci.max_weight,
-             ci.current_volume,
-             fi.item_id,
-             fi.item_name,
-             fi.available_qty,
-             fi.scrapped_qty,
-             fi.reserved_qty
-        FROM HASHINI_CONTAINER_TAB ci JOIN HASHINI_FOOD_ITEM_TAB fi ON ci.branch_id = branch_id_
-       WHERE ci.branch_id = branch_id_;
-  
-    RETURN cur;
+    FOR inventory_info IN (SELECT available_qty, item_id
+                             FROM HASHINI_FOOD_ITEM_TAB
+                            WHERE item_id IN
+                                  (SELECT item_id
+                                     FROM HASHINI_CONTAINER_TAB
+                                    WHERE container_id =
+                                          (SELECT container_id
+                                             FROM HASHINI_BRANCH_TAB
+                                            WHERE branch_id = branch_id_))) LOOP
+    
+      available_qty_ := inventory_info.available_qty;
+      item_id_       := inventory_info.item_id;
+    
+      DBMS_OUTPUT.PUT_LINE('Available Quantity: ' || available_qty_ ||
+                           ', Item ID: ' || item_id_);
+    END LOOP;
   END get_current_inventory;
 
   ------------------remaining capacity

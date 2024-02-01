@@ -46,17 +46,6 @@ BEGIN
    DBMS_OUTPUT.PUT_LINE('Remaining Capacity: ' || remaining_capacity);
 
 
-  ------inventory details----------
- inventory_cursor := HASHINI_BRANCH_API.get_current_inventory(41); -- Replace 123 with the actual    branch ID
-  
-  -- Fetch and display the inventory details
-  LOOP
-    FETCH inventory_cursor INTO container_id, current_weight, max_volume, max_weight, current_volume, item_id, item_name, available_qty, scrapped_qty, reserved_qty;
-    EXIT WHEN inventory_cursor%NOTFOUND;
-    DBMS_OUTPUT.PUT_LINE('Container ID: ' || container_id || ', Current Weight: ' || current_weight || ', Max Volume: ' || max_volume || ', Max Weight: ' || max_weight || ', Current Volume: ' || current_volume || ', Item ID: ' || item_id || ', Item Name: ' || item_name || ', Available Quantity: ' || available_qty || ', Scrapped Quantity: ' || scrapped_qty || ', Reserved Quantity: ' || reserved_qty);
-  END LOOP;
-
-  CLOSE inventory_cursor
-    
+   HASHINI_BRANCH_API.get_current_inventory(1); 
    
 END;
