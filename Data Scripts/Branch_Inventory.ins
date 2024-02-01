@@ -1,0 +1,9 @@
+SELECT * FROM all_objects
+
+where status='INVALID' and owner='IFSAPP'
+
+AND object_name LIKE '%COMPANY%'
+
+AND object_type='PACKAGE BODY'
+
+AND created > (SYSDATE-10);
