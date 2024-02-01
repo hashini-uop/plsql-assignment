@@ -6,18 +6,6 @@ DECLARE
   remaining_capacity NUMBER;
 
 
-  inventory_cursor SYS_REFCURSOR;
-  container_id NUMBER;
-  current_weight NUMBER;
-  max_volume NUMBER;
-  max_weight NUMBER;
-  current_volume NUMBER;
-  item_id NUMBER;
-  item_name VARCHAR2(100);
-  available_qty NUMBER;
-  scrapped_qty NUMBER;
-  reserved_qty NUMBER;
-
 BEGIN
     HASHINI_BRANCH_API.insert_branch(
     branch_name_ => 'Kegalle Branch',

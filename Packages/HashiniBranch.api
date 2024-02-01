@@ -13,7 +13,7 @@ CREATE OR REPLACE PACKAGE HASHINI_BRANCH_API AS
                           total_warehouse_capacity_ NUMBER);
 
   PROCEDURE delete_branch(branch_id_ IN NUMBER);
-   PROCEDURE get_current_inventory(branch_id_ IN NUMBER);
+  PROCEDURE get_current_inventory(branch_id_ IN NUMBER);
   FUNCTION get_branch_name(branch_id_ IN NUMBER) RETURN VARCHAR2;
 
   FUNCTION get_branch_address(branch_id_ IN NUMBER) RETURN VARCHAR2;
@@ -22,7 +22,6 @@ CREATE OR REPLACE PACKAGE HASHINI_BRANCH_API AS
 
   FUNCTION get_total_warehouse_capacity(branch_id_ IN NUMBER) RETURN NUMBER;
 
-  ---FUNCTION get_current_inventory(branch_id_ IN NUMBER) RETURN SYS_REFCURSOR;
   FUNCTION get_remaining_capacity(branch_id_ IN NUMBER) RETURN NUMBER;
 END HASHINI_BRANCH_API;
 /
