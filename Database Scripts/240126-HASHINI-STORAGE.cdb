@@ -1,13 +1,11 @@
 CREATE TABLE HASHINI_STORAGE_TAB (
-    store_id NUMBER,
+    
     status VARCHAR2(50),
     
     container_id NUMBER,
     branch_id NUMBER,
     item_id NUMBER,
+    company_reg_no NUMBER,
+    PRIMARY KEY(container_id ,branch_id, item_id, company_reg_no)
     
-    PRIMARY KEY(store_id),
-    
-    CONSTRAINT fk_storage_container FOREIGN KEY (container_id, branch_id) REFERENCES HASHINI_CONTAINER_TAB(container_id, branch_id),
-    CONSTRAINT fk_storage_item FOREIGN KEY (item_id) REFERENCES HASHINI_FOOD_ITEM_TAB(item_id)
 );
