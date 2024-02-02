@@ -3,7 +3,9 @@ CREATE OR REPLACE PACKAGE HASHINI_BRANCH_API AS
                           branch_address_           VARCHAR2,
                           branch_manager_           VARCHAR2,
                           total_warehouse_capacity_ NUMBER,
-                          company_reg_no_           NUMBER);
+                          company_reg_no_           NUMBER,
+                          container_id_             NUMBER,
+                          item_id_                  NUMBER);
 
   PROCEDURE update_branch(branch_id_                NUMBER,
                           branch_name_              VARCHAR2,
