@@ -7,22 +7,22 @@ DECLARE
 BEGIN
 
 
-   HASHINI_FOOD_ITEM_API.insert_food_item( item_name_  => 'Pen',
-                             available_qty_ => 100,
-                             scrapped_qty_ => 50,
-                             reserved_qty_ => 24);
+   HASHINI_FOODITEM_API.insert_food_item( item_name_  => 'Pencil',
+                             available_qty_ => 300,
+                             scrapped_qty_ => 60,
+                             reserved_qty_ => 25);
    
 
-   item_name := HASHINI_FOOD_ITEM_API.get_item_name(24);
+   item_name := HASHINI_FOODITEM_API.get_item_name(24);
    DBMS_OUTPUT.PUT_LINE('Item Name: ' || item_name);
    
-   available_qty := HASHINI_FOOD_ITEM_API.get_available_qty(24);
+   available_qty := HASHINI_FOODITEM_API.get_available_qty(24);
    DBMS_OUTPUT.PUT_LINE('Available quantity: ' || available_qty);
    
-   reserved_qty := HASHINI_FOOD_ITEM_API.get_reserved_qty(24);
+   reserved_qty := HASHINI_FOODITEM_API.get_reserved_qty(24);
    DBMS_OUTPUT.PUT_LINE('Reserved quantuty: ' || reserved_qty);
    
-   scrapped_qty := HASHINI_FOOD_ITEM_API.get_scrapped_qty(24);
+   scrapped_qty := HASHINI_FOODITEM_API.get_scrapped_qty(24);
    DBMS_OUTPUT.PUT_LINE('Scrapped quantyty: ' || scrapped_qty);
    
   
