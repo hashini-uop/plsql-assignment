@@ -1,4 +1,5 @@
-CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
+CREATE OR REPLACE PACKAGE BODY HASHINI_FOODITEM_API AS
+-------------Insert Food Item
   PROCEDURE insert_food_item(item_id_       IN NUMBER DEFAULT NULL,
                              item_name_     IN VARCHAR2,
                              available_qty_ IN NUMBER,
@@ -7,12 +8,12 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     generated_item_id_ NUMBER;
   BEGIN
     IF item_id_ IS NULL THEN
-      SELECT item_id_seq.NEXTVAL INTO generated_item_id_ FROM dual;
+      SELECT HASHINI_FOODITEM_SEQ.NEXTVAL INTO generated_item_id_ FROM dual;
     ELSE
       generated_item_id_ := item_id_;
     END IF;
   
-    INSERT INTO HASHINI_FOOD_ITEM_TAB
+    INSERT INTO HASHINI_FOODITEM_TAB
       (item_id, item_name, available_qty, scrapped_qty, reserved_qty)
     VALUES
       (generated_item_id_,
@@ -22,13 +23,14 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
        reserved_qty_);
   END insert_food_item;
 
+  -------------Update Food Item
   PROCEDURE update_food_item(item_id_       IN NUMBER,
                              item_name_     IN VARCHAR2,
                              available_qty_ IN NUMBER,
                              scrapped_qty_  IN NUMBER,
                              reserved_qty_  IN NUMBER) IS
   BEGIN
-    UPDATE HASHINI_FOOD_ITEM_TAB
+    UPDATE HASHINI_FOODITEM_TAB
        SET item_name     = item_name_,
            available_qty = available_qty_,
            scrapped_qty  = scrapped_qty_,
@@ -36,11 +38,13 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
      WHERE item_id = item_id_;
   END update_food_item;
 
+  -------------Delete Food Item
   PROCEDURE delete_food_item(item_id_ IN NUMBER) IS
   BEGIN
-    DELETE FROM HASHINI_FOOD_ITEM_TAB WHERE item_id = item_id_;
+    DELETE FROM HASHINI_FOODITEM_TAB WHERE item_id = item_id_;
   END delete_food_item;
 
+  -------------Get Food Item Name
   FUNCTION get_item_name(item_id IN NUMBER) RETURN VARCHAR2 AS
     item_name VARCHAR2(100);
   BEGIN
@@ -48,7 +52,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     DECLARE
       CURSOR item_cursor IS
         SELECT item_name
-          FROM HASHINI_FOOD_ITEM_TAB
+          FROM HASHINI_FOODITEM_TAB
          WHERE item_id = item_id;
     BEGIN
     
@@ -60,7 +64,8 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
       RETURN item_name;
     END;
   END get_item_name;
-
+  
+  -------------Get Food Item available quantity
   FUNCTION get_available_qty(item_id IN NUMBER) RETURN NUMBER AS
     available_qty NUMBER;
   BEGIN
@@ -68,7 +73,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     DECLARE
       CURSOR item_cursor IS
         SELECT available_qty
-          FROM HASHINI_FOOD_ITEM_TAB
+          FROM HASHINI_FOODITEM_TAB
          WHERE item_id = item_id;
     BEGIN
     
@@ -81,6 +86,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     END;
   END get_available_qty;
 
+    -------------Get Food Item scrapped quantity
   FUNCTION get_scrapped_qty(item_id IN NUMBER) RETURN NUMBER AS
     scrapped_qty NUMBER;
   BEGIN
@@ -88,7 +94,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     DECLARE
       CURSOR item_cursor IS
         SELECT scrapped_qty
-          FROM HASHINI_FOOD_ITEM_TAB
+          FROM HASHINI_FOODITEM_TAB
          WHERE item_id = item_id;
     BEGIN
     
@@ -101,6 +107,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     END;
   END get_scrapped_qty;
 
+    -------------Get Food Item Reserved Quantity
   FUNCTION get_reserved_qty(item_id IN NUMBER) RETURN NUMBER AS
     reserved_qty NUMBER;
   BEGIN
@@ -108,7 +115,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     DECLARE
       CURSOR item_cursor IS
         SELECT reserved_qty
-          FROM HASHINI_FOOD_ITEM_TAB
+          FROM HASHINI_FOODITEM_TAB
          WHERE item_id = item_id;
     BEGIN
     
@@ -121,5 +128,5 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_FOOD_ITEM_API AS
     END;
   END get_reserved_qty;
 
-END HASHINI_FOOD_ITEM_API;
+END HASHINI_FOODITEM_API;
 /

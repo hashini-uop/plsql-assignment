@@ -1,4 +1,5 @@
 CREATE OR REPLACE PACKAGE BODY HASHINI_CONTAINER_API AS
+------------Insert Container
     PROCEDURE insert_container(
         container_id_ NUMBER DEFAULT NULL,
         current_weight_ NUMBER,
@@ -10,7 +11,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_CONTAINER_API AS
     ) IS generated_container_id_ NUMBER;
     BEGIN
     IF container_id_ IS NULL THEN
-      SELECT container_id_sequence.NEXTVAL
+      SELECT HASHINI_CONATAINER_SEQ.NEXTVAL
         INTO generated_container_id_
         FROM dual;
     ELSE
@@ -35,6 +36,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_CONTAINER_API AS
         );
     END insert_container;
     
+------------Update Container
     PROCEDURE update_container(
         container_id_ NUMBER,
         current_weight_ NUMBER,
@@ -56,7 +58,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_CONTAINER_API AS
             AND branch_id = branch_id_
             AND company_reg_no = company_reg_no_;
     END update_container;
-    
+------------Delete Container    
     PROCEDURE delete_container(
         container_id_ NUMBER,
         branch_id_ NUMBER,

@@ -1,9 +1,10 @@
 CREATE OR REPLACE PACKAGE BODY HASHINI_COMPANY_API AS
+  --------------Insert Company
   PROCEDURE insert_company(company_name_    IN VARCHAR2,
                            company_address_ IN VARCHAR2) IS
     company_reg_no_ NUMBER;
   BEGIN
-    SELECT company_reg_no_seq.NEXTVAL INTO company_reg_no_ FROM dual;
+    SELECT HASHINI_COMPANY_SEQ.NEXTVAL INTO company_reg_no_ FROM dual;
     INSERT INTO HASHINI_COMPANY_TAB
       (company_name, company_address)
     VALUES
@@ -11,6 +12,23 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_COMPANY_API AS
   
   END insert_company;
 
+  --------------Update Company 
+  PROCEDURE update_company(company_reg_no  IN NUMBER,
+                           company_name    IN VARCHAR2,
+                           company_address IN VARCHAR2) IS
+  BEGIN
+    UPDATE HASHINI_COMPANY_TAB
+       SET company_name = company_name, company_address = company_address
+     WHERE company_reg_no = company_reg_no;
+  END update_company;
+
+  --------------Delete Company
+  PROCEDURE delete_company(company_reg_no IN NUMBER) IS
+  BEGIN
+    DELETE FROM HASHINI_COMPANY_TAB WHERE company_reg_no = company_reg_no;
+  END delete_company;
+
+  --------------Get Company Name
   FUNCTION get_company_name(company_reg_no IN NUMBER) RETURN VARCHAR2 AS
     company_name VARCHAR2(200);
   BEGIN
@@ -31,20 +49,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_COMPANY_API AS
     END;
   END get_company_name;
 
-  PROCEDURE update_company(company_reg_no  IN NUMBER,
-                           company_name    IN VARCHAR2,
-                           company_address IN VARCHAR2) IS
-  BEGIN
-    UPDATE HASHINI_COMPANY_TAB
-       SET company_name = company_name, company_address = company_address
-     WHERE company_reg_no = company_reg_no;
-  END update_company;
-
-  PROCEDURE delete_company(company_reg_no IN NUMBER) IS
-  BEGIN
-    DELETE FROM HASHINI_COMPANY_TAB WHERE company_reg_no = company_reg_no;
-  END delete_company;
-
+  --------------Get Company Address
   FUNCTION get_company_address(company_reg_no IN NUMBER) RETURN VARCHAR2 AS
     company_address VARCHAR2(4000);
   BEGIN

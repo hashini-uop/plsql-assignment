@@ -1,29 +1,28 @@
 CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
+  -----------------Insert Branch
   PROCEDURE insert_branch(branch_name_              IN VARCHAR2,
                           branch_address_           IN VARCHAR2,
                           branch_manager_           IN VARCHAR2,
                           total_warehouse_capacity_ IN NUMBER,
-                          company_reg_no_           IN NUMBER,
-                          container_id_             IN NUMBER) IS
+                          company_reg_no_           IN NUMBER) IS
     branch_id_ NUMBER;
   BEGIN
-    SELECT branch_id_seq.NEXTVAL INTO branch_id_ FROM dual;
+    SELECT HASHINI_BRANCH_SEQ.NEXTVAL INTO branch_id_ FROM dual;
     INSERT INTO HASHINI_BRANCH_TAB
       (branch_name,
        branch_address,
        branch_manager,
        total_warehouse_capacity,
-       company_reg_no,
-       container_id)
+       company_reg_no)
     VALUES
       (branch_name_,
        branch_address_,
        branch_manager_,
        total_warehouse_capacity_,
-       company_reg_no_,
-       container_id_);
+       company_reg_no_);
   END insert_branch;
 
+  --------------Update Branch
   PROCEDURE update_branch(branch_id_                IN NUMBER,
                           branch_name_              IN VARCHAR2,
                           branch_address_           IN VARCHAR2,
@@ -38,34 +37,36 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
      WHERE branch_id = branch_id_;
   END update_branch;
 
+  ---------------Delete Branch
   PROCEDURE delete_branch(branch_id_ IN NUMBER) IS
   BEGIN
     DELETE FROM HASHINI_BRANCH_TAB WHERE branch_id = branch_id_;
   END delete_branch;
 
-   ------Inventory Info----
+  ------Inventory Info----
   PROCEDURE get_current_inventory(branch_id_ IN NUMBER) IS
-     available_qty_ NUMBER;
-     item_id_       NUMBER;
-   BEGIN
-     FOR inventory_info IN (SELECT available_qty, item_id
-                              FROM HASHINI_FOOD_ITEM_TAB
-                             WHERE item_id IN
-                                   (SELECT item_id
-                                      FROM HASHINI_CONTAINER_TAB
-                                     WHERE container_id =
-                                           (SELECT container_id
-                                              FROM HASHINI_BRANCH_TAB
-                                             WHERE branch_id = branch_id_))) LOOP
+    available_qty_ NUMBER;
+    item_id_       NUMBER;
+  BEGIN
+    FOR inventory_info IN (SELECT available_qty, item_id
+                             FROM HASHINI_FOODITEM_TAB
+                            WHERE item_id IN
+                                  (SELECT item_id
+                                     FROM HASHINI_CONTAINER_TAB
+                                    WHERE container_id =
+                                          (SELECT container_id
+                                             FROM HASHINI_BRANCH_TAB
+                                            WHERE branch_id = branch_id_))) LOOP
     
-       available_qty_ := inventory_info.available_qty;
-       item_id_       := inventory_info.item_id;
+      available_qty_ := inventory_info.available_qty;
+      item_id_       := inventory_info.item_id;
     
-       DBMS_OUTPUT.PUT_LINE('Available Quantity: ' || available_qty_ ||
+      DBMS_OUTPUT.PUT_LINE('Available Quantity: ' || available_qty_ ||
                            ', Item ID: ' || item_id_);
-     END LOOP;
-   END get_current_inventory;
+    END LOOP;
+  END get_current_inventory;
 
+  -------------Get Branch Name
   FUNCTION get_branch_name(branch_id_ IN NUMBER) RETURN VARCHAR2 IS
     branch_name_ VARCHAR2(200);
   BEGIN
@@ -78,6 +79,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   
   END get_branch_name;
 
+  -------------Get Branch Address
   FUNCTION get_branch_address(branch_id_ IN NUMBER) RETURN VARCHAR2 IS
     branch_address_ VARCHAR2(200);
   BEGIN
@@ -90,6 +92,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   
   END get_branch_address;
 
+  -------------Get Branch Manager
   FUNCTION get_branch_manager(branch_id_ IN NUMBER) RETURN VARCHAR2 IS
     branch_manager_ VARCHAR2(200);
   BEGIN
@@ -102,6 +105,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   
   END get_branch_manager;
 
+    -------------Get total warehouse capacity
   FUNCTION get_total_warehouse_capacity(branch_id_ IN NUMBER) RETURN NUMBER IS
     total_warehouse_capacity_ NUMBER;
   BEGIN
@@ -114,9 +118,7 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
   
   END get_total_warehouse_capacity;
 
-
-
-  ------------------remaining capacity
+  ---------------Get remaining capacity
   FUNCTION get_remaining_capacity(branch_id_ IN NUMBER) RETURN NUMBER IS
     result_ NUMBER;
   BEGIN
@@ -141,6 +143,5 @@ CREATE OR REPLACE PACKAGE BODY HASHINI_BRANCH_API AS
       RETURN NULL; -- Handle no data found exception
   END get_remaining_capacity;
 
-
 END HASHINI_BRANCH_API;
-/
+/   
