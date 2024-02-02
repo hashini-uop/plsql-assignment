@@ -1,0 +1,10 @@
+CREATE OR REPLACE VIEW HASHINI_USABLE_BRANCH_INFO AS
+SELECT b.branch_id,
+       b.branch_name,
+       b.total_warehouse_capacity - NVL(SUM(c.max_volume), 0) AS available_capacity,
+       COUNT(*) AS num_branches_with_capacity
+FROM HASHINI_BRANCH_TAB b
+LEFT JOIN HASHINI_CONTAINER_TAB c ON b.branch_id = c.branch_id
+GROUP BY b.branch_id, b.branch_name, b.total_warehouse_capacity
+HAVING (b.total_warehouse_capacity - NVL(SUM(c.max_volume), 0)) > 100;
+
