@@ -1,0 +1,8 @@
+CREATE  OR REPLACE VIEW HASHINI_FOODITEM_QTY AS
+SELECT b.branch_id,
+       HASHINI_BRANCH_API.get_branch_name(b.branch_id) AS branch_name,
+       s.item_id,
+       HASHINI_FOODITEM_API.get_item_name(s.item_id) AS item_name,
+       HASHINI_FOODITEM_API.get_available_qty(s.item_id) AS available_qty
+FROM HASHINI_BRANCH_TAB b
+JOIN HASHINI_STORAGE_TAB s ON b.branch_id = s.branch_id;
