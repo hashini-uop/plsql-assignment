@@ -1,5 +1,6 @@
 CREATE OR REPLACE VIEW HASHINI_BRANCH_CAPACITY_INFO AS
 SELECT b.branch_id,
        HASHINI_BRANCH_API.get_branch_name(b.branch_id) AS branch_name,
+       HASHINI_BRANCH_API.get_remaining_capacity(branch_id) AS remaining_capaacity,
        b.total_warehouse_capacity AS branch_capacity
 FROM HASHINI_BRANCH_TAB b;
